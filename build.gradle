@@ -1,0 +1,160 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+group = 'org.nrg.xnatx.plugins'
+version = '1.0.0'
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://nrgxnat.jfrog.io/nrgxnat/libs-release'
+        allowInsecureProtocol = true
+    }
+    maven {
+        url 'https://nrgxnat.jfrog.io/nrgxnat/libs-snapshot'
+        allowInsecureProtocol = true
+    }
+    maven {
+        url 'https://nrgxnat.jfrog.io/nrgxnat/ext-release'
+        allowInsecureProtocol = true
+    }
+    maven {
+        url 'https://repo1.maven.org/maven2'
+    }
+}
+
+ext {
+    xnatVersion = '1.9.2'
+    springVersion = '5.3.23'
+    hibernateVersion = '5.6.14.Final'
+    jacksonVersion = '2.14.2'
+    lombokVersion = '1.18.28'
+    slf4jVersion = '1.7.36'
+    logbackVersion = '1.2.12'
+    swaggerVersion = '1.6.14'
+}
+
+dependencies {
+    // XNAT dependencies
+    compileOnly "org.nrg.xnat:web:${xnatVersion}"
+    compileOnly "org.nrg.xnat:xnat-data-models:${xnatVersion}"
+    compileOnly "org.nrg:framework:${xnatVersion}"
+    compileOnly "org.nrg:xdat:${xnatVersion}"
+    compileOnly "org.nrg:xft:${xnatVersion}"
+    
+    // Spring dependencies
+    compileOnly "org.springframework:spring-web:${springVersion}"
+    compileOnly "org.springframework:spring-webmvc:${springVersion}"
+    compileOnly "org.springframework:spring-context:${springVersion}"
+    compileOnly "org.springframework:spring-core:${springVersion}"
+    compileOnly "org.springframework:spring-beans:${springVersion}"
+    compileOnly "org.springframework:spring-tx:${springVersion}"
+    compileOnly "org.springframework:spring-orm:${springVersion}"
+    
+    // Hibernate
+    compileOnly "org.hibernate:hibernate-core:${hibernateVersion}"
+    
+    // Jackson for JSON processing
+    compileOnly "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
+    compileOnly "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+    compileOnly "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+    
+    // Logging
+    compileOnly "org.slf4j:slf4j-api:${slf4jVersion}"
+    compileOnly "ch.qos.logback:logback-classic:${logbackVersion}"
+    
+    // Lombok
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    
+    // Swagger for REST API documentation
+    compileOnly "io.swagger:swagger-annotations:${swaggerVersion}"
+    
+    // Servlet API
+    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+    
+    // Test dependencies
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito:mockito-core:4.6.1'
+    testImplementation "org.springframework:spring-test:${springVersion}"
+}
+
+jar {
+    manifest {
+        attributes(
+            'Implementation-Title': 'XNAT Centiloid Plugin',
+            'Implementation-Version': version,
+            'Implementation-Vendor': 'NRG, Washington University School of Medicine',
+            'Build-Date': new Date().format('yyyy-MM-dd HH:mm:ss'),
+            'Built-By': System.getProperty('user.name'),
+            'Built-JDK': System.getProperty('java.version')
+        )
+    }
+    
+    // Include all resources in the JAR
+    from sourceSets.main.resources
+}
+
+// Task to create a fat JAR with dependencies (optional)
+task fatJar(type: Jar) {
+    classifier = 'fat'
+    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+// Publishing configuration
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            
+            pom {
+                name = 'XNAT Centiloid Plugin'
+                description = 'XNAT datatype plugin for storing Centiloid PET analysis results'
+                url = 'https://github.com/your-org/xnat-centiloid-plugin'
+                
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                
+                developers {
+                    developer {
+                        id = 'your-id'
+                        name = 'Your Name'
+                        email = 'your.email@example.com'
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Ensure UTF-8 encoding for all source files
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+// Generate sources JAR
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+// Generate Javadoc JAR
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}

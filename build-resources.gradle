@@ -1,0 +1,68 @@
+plugins {
+    id 'base'
+}
+
+group = 'org.nrg.xnatx.plugins'
+version = '1.0.0'
+
+// Create JAR with just the resource files (schema, templates, configuration)
+task resourcesJar(type: Jar) {
+    archiveBaseName = 'xnat-centiloid-plugin'
+    archiveClassifier = 'resources'
+    
+    // Include all resource files
+    from 'src/main/resources'
+    
+    manifest {
+        attributes(
+            'Implementation-Title': 'XNAT Centiloid Plugin (Resources Only)',
+            'Implementation-Version': version,
+            'Implementation-Vendor': 'NRG, Washington University School of Medicine',
+            'Build-Date': new Date().format('yyyy-MM-dd HH:mm:ss'),
+            'Built-By': System.getProperty('user.name'),
+            'Plugin-Id': 'centiloid-plugin',
+            'Plugin-Name': 'Centiloid Plugin',
+            'Plugin-Description': 'XNAT datatype plugin for storing Centiloid PET analysis results',
+            'Plugin-Version': version,
+            'Plugin-Namespace': 'http://nrg.wustl.edu/centiloid',
+            'Plugin-Schema-Location': 'schemas/centiloid/centiloid.xsd'
+        )
+    }
+    
+    // Create in build/libs
+    destinationDirectory = file("$buildDir/libs")
+}
+
+// Create full JAR that contains everything needed for the plugin
+task pluginJar(type: Jar) {
+    archiveBaseName = 'xnat-centiloid-plugin'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    
+    // Include all resource files
+    from 'src/main/resources'
+    
+    manifest {
+        attributes(
+            'Implementation-Title': 'XNAT Centiloid Plugin',
+            'Implementation-Version': version,
+            'Implementation-Vendor': 'NRG, Washington University School of Medicine',
+            'Build-Date': new Date().format('yyyy-MM-dd HH:mm:ss'),
+            'Built-By': System.getProperty('user.name'),
+            'Plugin-Id': 'centiloid-plugin',
+            'Plugin-Name': 'Centiloid Plugin',
+            'Plugin-Description': 'XNAT datatype plugin for storing Centiloid PET analysis results from the centiloid container',
+            'Plugin-Version': version,
+            'Plugin-Main-Class': 'org.nrg.xnatx.plugins.centiloid.CentiloidPlugin',
+            'Plugin-Namespace': 'http://nrg.wustl.edu/centiloid',
+            'Plugin-Schema-Location': 'schemas/centiloid/centiloid.xsd',
+            'Plugin-Entity-Packages': 'org.nrg.xnatx.plugins.centiloid.entities'
+        )
+    }
+}
+
+build.dependsOn resourcesJar, pluginJar
+
+// Make the plugin JAR the default
+artifacts {
+    archives pluginJar
+}

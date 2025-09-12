@@ -1,0 +1,50 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group = 'org.nrg.xnatx.plugins'
+version = '1.0.0'
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenCentral()
+}
+
+// Create JAR with just the schema and configuration files
+jar {
+    manifest {
+        attributes(
+            'Implementation-Title': 'XNAT Centiloid Plugin',
+            'Implementation-Version': version,
+            'Implementation-Vendor': 'NRG, Washington University School of Medicine',
+            'Build-Date': new Date().format('yyyy-MM-dd HH:mm:ss'),
+            'Built-By': System.getProperty('user.name'),
+            'Built-JDK': System.getProperty('java.version')
+        )
+    }
+    
+    // Include all resources (schemas, display configs, metadata)
+    from sourceSets.main.resources
+    
+    // For now, exclude Java source since we can't compile without XNAT deps
+    exclude '**/*.java'
+    exclude '**/*.class'
+}
+
+// Task to create schema-only JAR for immediate use
+task schemaJar(type: Jar) {
+    archiveClassifier = 'schemas-only'
+    
+    from sourceSets.main.resources
+    include 'schemas/**'
+    include 'META-INF/**'
+    include 'templates/**'
+    
+    manifest {
+        attributes jar.manifest.attributes
+    }
+}
+
+build.dependsOn schemaJar

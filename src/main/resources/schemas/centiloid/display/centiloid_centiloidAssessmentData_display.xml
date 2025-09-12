@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Displays xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xsi:noNamespaceSchemaLocation="../xdat.xsd" 
+          schema-element="centiloid:centiloidAssessmentData">
+          
+  <DisplayField header="Tracer" id="tracer" data-type="string"/>
+  <DisplayField header="Mode" id="mode" data-type="string"/>
+  <DisplayField header="Registration" id="reg_mode" data-type="string"/>
+  <DisplayField header="Target Mean" id="target_mean" data-type="float"/>
+  <DisplayField header="Reference Mean" id="reference_mean" data-type="float"/>
+  <DisplayField header="SUVR" id="suvr_global_cortex_over_ref" data-type="float"/>
+  <DisplayField header="Centiloid" id="scaled_value" data-type="float"/>
+  <DisplayField header="Units" id="scaled_units" data-type="string"/>
+  <DisplayField header="Status" id="processing_status" data-type="string"/>
+  <DisplayField header="Processing Date" id="processing_date" data-type="datetime"/>
+  
+  <ViewForm>
+    <DisplayVersion versionName="listing" default-order-by="processing_date" default-sort-order="DESC">
+      <DisplayFieldRef id="tracer"/>
+      <DisplayFieldRef id="mode"/>
+      <DisplayFieldRef id="suvr_global_cortex_over_ref"/>
+      <DisplayFieldRef id="scaled_value"/>
+      <DisplayFieldRef id="scaled_units"/>
+      <DisplayFieldRef id="processing_status"/>
+      <DisplayFieldRef id="processing_date"/>
+    </DisplayVersion>
+    
+    <DisplayVersion versionName="detailed">
+      <!-- Input Parameters -->
+      <DisplayFieldRef id="dicom_dir" header="DICOM Directory"/>
+      <DisplayFieldRef id="pet_nifti" header="PET NIfTI"/>
+      <DisplayFieldRef id="template" header="Template"/>
+      <DisplayFieldRef id="target_mask" header="Target Mask"/>
+      <DisplayFieldRef id="ref_mask" header="Reference Mask"/>
+      <DisplayFieldRef id="tracer"/>
+      <DisplayFieldRef id="mode"/>
+      <DisplayFieldRef id="reg_mode"/>
+      
+      <!-- Processing Results -->
+      <DisplayFieldRef id="converted_pet_nifti" header="Converted NIfTI"/>
+      <DisplayFieldRef id="registered_pet_nifti" header="Registered PET"/>
+      <DisplayFieldRef id="transform" header="Transform File"/>
+      
+      <!-- Quantitative Metrics -->
+      <DisplayFieldRef id="target_mean"/>
+      <DisplayFieldRef id="reference_mean"/>
+      <DisplayFieldRef id="suvr_global_cortex_over_ref"/>
+      <DisplayFieldRef id="scaled_value"/>
+      <DisplayFieldRef id="scaled_units"/>
+      
+      <!-- Output Files -->
+      <DisplayFieldRef id="qc_overlay_file" header="QC Overlay"/>
+      <DisplayFieldRef id="qc_pdf_file" header="QC PDF"/>
+      <DisplayFieldRef id="parametric_map_file" header="Parametric Map"/>
+      <DisplayFieldRef id="results_json" header="Results JSON"/>
+      <DisplayFieldRef id="results_csv" header="Results CSV"/>
+      
+      <!-- Metadata -->
+      <DisplayFieldRef id="processing_status"/>
+      <DisplayFieldRef id="processing_date"/>
+      <DisplayFieldRef id="container_version" header="Container Version"/>
+    </DisplayVersion>
+  </ViewForm>
+  
+</Displays>

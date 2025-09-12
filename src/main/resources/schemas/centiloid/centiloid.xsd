@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" 
+           targetNamespace="http://nrg.wustl.edu/centiloid" 
+           xmlns:centiloid="http://nrg.wustl.edu/centiloid" 
+           xmlns:xdat="http://nrg.wustl.edu/xdat" 
+           xmlns:xnat="http://nrg.wustl.edu/xnat" 
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+           
+    <xs:import namespace="http://nrg.wustl.edu/xnat" schemaLocation="../xnat/xnat.xsd"/>
+    
+    <xs:element name="CentiloidAssessment" type="centiloid:centiloidAssessmentData">
+        <xs:annotation>
+            <xs:documentation>Assessor for PET Centiloid analysis results</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    
+    <xs:complexType name="centiloidAssessmentData">
+        <xs:complexContent>
+            <xs:extension base="xnat:imageAssessorData">
+                <xs:sequence>
+                    <!-- Input parameters -->
+                    <xs:element minOccurs="0" name="dicom_dir" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Path to input DICOM directory</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="pet_nifti" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Path to input PET NIfTI file</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="template" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Template space used for registration</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="target_mask" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Target mask for cortical regions</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="ref_mask" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Reference mask (e.g., cerebellum)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="tracer" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>PET tracer used (e.g., FBP, NAV4694)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="mode" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Analysis mode (amyloid, tau)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="reg_mode" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Registration mode (rigid, affine)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    
+                    <!-- Processing results -->
+                    <xs:element minOccurs="0" name="converted_pet_nifti" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Path to converted NIfTI file</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="registered_pet_nifti" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Path to registered PET file</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="transform" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Registration transform file</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    
+                    <!-- Quantitative metrics -->
+                    <xs:element minOccurs="0" name="target_mean" type="xs:float">
+                        <xs:annotation>
+                            <xs:documentation>Mean value in target region</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="reference_mean" type="xs:float">
+                        <xs:annotation>
+                            <xs:documentation>Mean value in reference region</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="suvr_global_cortex_over_ref" type="xs:float">
+                        <xs:annotation>
+                            <xs:documentation>Global cortical SUVR</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="scaled_value" type="xs:float">
+                        <xs:annotation>
+                            <xs:documentation>Centiloid or scaled value</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="scaled_units" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Units for scaled value (e.g., Centiloid)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    
+                    <!-- QC and output files -->
+                    <xs:element minOccurs="0" name="qc_overlay_file" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>QC overlay image file</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="qc_pdf_file" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>QC PDF report file</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="parametric_map_file" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>DICOM parametric map file</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="results_json" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Complete results JSON file</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="results_csv" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Results CSV file</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    
+                    <!-- Processing status and metadata -->
+                    <xs:element minOccurs="0" name="processing_status" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Processing status (completed, failed, etc.)</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="processing_date" type="xs:dateTime">
+                        <xs:annotation>
+                            <xs:documentation>Date and time of processing</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="container_version" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Version of centiloid container used</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+</xs:schema>
