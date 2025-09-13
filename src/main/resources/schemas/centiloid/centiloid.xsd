@@ -137,7 +137,7 @@
                             <xs:documentation>Processing status (completed, failed, etc.)</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element minOccurs="0" name="processing_date" type="xs:dateTime">
+                    <xs:element minOccurs="0" name="processing_date" type="xs:string">
                         <xs:annotation>
                             <xs:documentation>Date and time of processing</xs:documentation>
                         </xs:annotation>

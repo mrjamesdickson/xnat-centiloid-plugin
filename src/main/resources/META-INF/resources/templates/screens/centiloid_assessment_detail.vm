@@ -1,0 +1,203 @@
+##
+## Centiloid Assessment Detail View
+##
+#set($page_title = "Centiloid Assessment")
+#set($project = $om.getProject())
+
+<div class="centiloid-assessment-detail">
+    <h2>Centiloid Assessment Details</h2>
+    
+    <div class="assessment-summary">
+        <table class="xnat-table">
+            <tr>
+                <th>Assessment ID:</th>
+                <td>$!om.getId()</td>
+            </tr>
+            <tr>
+                <th>Label:</th>
+                <td>$!om.getLabel()</td>
+            </tr>
+            <tr>
+                <th>Project:</th>
+                <td>$!om.getProject()</td>
+            </tr>
+            <tr>
+                <th>Session:</th>
+                <td>$!om.getImageSessionId()</td>
+            </tr>
+            <tr>
+                <th>Processing Date:</th>
+                <td>$!om.getProcessingDate()</td>
+            </tr>
+            <tr>
+                <th>Status:</th>
+                <td>$!om.getProcessingStatus()</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="assessment-parameters">
+        <h3>Input Parameters</h3>
+        <table class="xnat-table">
+            <tr>
+                <th>Tracer:</th>
+                <td>$!om.getTracer()</td>
+            </tr>
+            <tr>
+                <th>Analysis Mode:</th>
+                <td>$!om.getMode()</td>
+            </tr>
+            <tr>
+                <th>Registration Mode:</th>
+                <td>$!om.getRegMode()</td>
+            </tr>
+            <tr>
+                <th>Template:</th>
+                <td>$!om.getTemplate()</td>
+            </tr>
+            <tr>
+                <th>Target Mask:</th>
+                <td>$!om.getTargetMask()</td>
+            </tr>
+            <tr>
+                <th>Reference Mask:</th>
+                <td>$!om.getRefMask()</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="assessment-results">
+        <h3>Quantitative Results</h3>
+        <table class="xnat-table">
+            <tr>
+                <th>Target Region Mean:</th>
+                <td>$!om.getTargetMean()</td>
+            </tr>
+            <tr>
+                <th>Reference Region Mean:</th>
+                <td>$!om.getReferenceMean()</td>
+            </tr>
+            <tr>
+                <th>Global Cortical SUVR:</th>
+                <td>$!om.getSuvrGlobalCortexOverRef()</td>
+            </tr>
+            <tr>
+                <th>Centiloid Value:</th>
+                <td class="highlight">$!om.getScaledValue() $!om.getScaledUnits()</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="assessment-files">
+        <h3>Output Files</h3>
+        <table class="xnat-table">
+            #if($om.getQcOverlayFile())
+            <tr>
+                <th>QC Overlay:</th>
+                <td><a href="$!om.getQcOverlayFile()">Download QC Image</a></td>
+            </tr>
+            #end
+            #if($om.getQcPdfFile())
+            <tr>
+                <th>QC Report:</th>
+                <td><a href="$!om.getQcPdfFile()">Download QC PDF</a></td>
+            </tr>
+            #end
+            #if($om.getParametricMapFile())
+            <tr>
+                <th>Parametric Map:</th>
+                <td><a href="$!om.getParametricMapFile()">Download DICOM</a></td>
+            </tr>
+            #end
+            #if($om.getResultsJson())
+            <tr>
+                <th>Results JSON:</th>
+                <td><a href="$!om.getResultsJson()">Download JSON</a></td>
+            </tr>
+            #end
+            #if($om.getResultsCsv())
+            <tr>
+                <th>Results CSV:</th>
+                <td><a href="$!om.getResultsCsv()">Download CSV</a></td>
+            </tr>
+            #end
+        </table>
+    </div>
+
+    <div class="assessment-processing">
+        <h3>Processing Information</h3>
+        <table class="xnat-table">
+            <tr>
+                <th>Converted PET NIfTI:</th>
+                <td>$!om.getConvertedPetNifti()</td>
+            </tr>
+            <tr>
+                <th>Registered PET:</th>
+                <td>$!om.getRegisteredPetNifti()</td>
+            </tr>
+            <tr>
+                <th>Transform File:</th>
+                <td>$!om.getTransform()</td>
+            </tr>
+            <tr>
+                <th>Container Version:</th>
+                <td>$!om.getContainerVersion()</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<style>
+.centiloid-assessment-detail {
+    margin: 20px;
+}
+
+.centiloid-assessment-detail h2 {
+    color: #333;
+    border-bottom: 2px solid #0066cc;
+    padding-bottom: 10px;
+}
+
+.centiloid-assessment-detail h3 {
+    color: #0066cc;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+.centiloid-assessment-detail .assessment-summary,
+.centiloid-assessment-detail .assessment-parameters,
+.centiloid-assessment-detail .assessment-results,
+.centiloid-assessment-detail .assessment-files,
+.centiloid-assessment-detail .assessment-processing {
+    margin-bottom: 30px;
+}
+
+.centiloid-assessment-detail table.xnat-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.centiloid-assessment-detail table.xnat-table th {
+    background-color: #f0f0f0;
+    text-align: left;
+    padding: 8px;
+    border: 1px solid #ddd;
+    font-weight: bold;
+    width: 200px;
+}
+
+.centiloid-assessment-detail table.xnat-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+.centiloid-assessment-detail table.xnat-table td.highlight {
+    background-color: #fff3cd;
+    font-weight: bold;
+}
+
+.centiloid-assessment-detail table.xnat-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+</style>

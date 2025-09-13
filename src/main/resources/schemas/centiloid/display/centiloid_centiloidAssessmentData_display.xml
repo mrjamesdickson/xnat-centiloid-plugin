@@ -3,19 +3,42 @@
           xsi:noNamespaceSchemaLocation="../xdat.xsd" 
           schema-element="centiloid:centiloidAssessmentData">
           
+  <!-- Input Parameters -->
+  <DisplayField header="DICOM Directory" id="dicom_dir" data-type="string"/>
+  <DisplayField header="PET NIfTI" id="pet_nifti" data-type="string"/>
+  <DisplayField header="Template" id="template" data-type="string"/>
+  <DisplayField header="Target Mask" id="target_mask" data-type="string"/>
+  <DisplayField header="Reference Mask" id="ref_mask" data-type="string"/>
   <DisplayField header="Tracer" id="tracer" data-type="string"/>
   <DisplayField header="Mode" id="mode" data-type="string"/>
   <DisplayField header="Registration" id="reg_mode" data-type="string"/>
+  
+  <!-- Processing Results -->
+  <DisplayField header="Converted NIfTI" id="converted_pet_nifti" data-type="string"/>
+  <DisplayField header="Registered PET" id="registered_pet_nifti" data-type="string"/>
+  <DisplayField header="Transform File" id="transform" data-type="string"/>
+  
+  <!-- Quantitative Metrics -->
   <DisplayField header="Target Mean" id="target_mean" data-type="float"/>
   <DisplayField header="Reference Mean" id="reference_mean" data-type="float"/>
   <DisplayField header="SUVR" id="suvr_global_cortex_over_ref" data-type="float"/>
   <DisplayField header="Centiloid" id="scaled_value" data-type="float"/>
   <DisplayField header="Units" id="scaled_units" data-type="string"/>
+  
+  <!-- Output Files -->
+  <DisplayField header="QC Overlay" id="qc_overlay_file" data-type="string"/>
+  <DisplayField header="QC PDF" id="qc_pdf_file" data-type="string"/>
+  <DisplayField header="Parametric Map" id="parametric_map_file" data-type="string"/>
+  <DisplayField header="Results JSON" id="results_json" data-type="string"/>
+  <DisplayField header="Results CSV" id="results_csv" data-type="string"/>
+  
+  <!-- Metadata -->
   <DisplayField header="Status" id="processing_status" data-type="string"/>
-  <DisplayField header="Processing Date" id="processing_date" data-type="datetime"/>
+  <DisplayField header="Processing Date" id="processing_date" data-type="string"/>
+  <DisplayField header="Container Version" id="container_version" data-type="string"/>
   
   <ViewForm>
-    <DisplayVersion versionName="listing" default-order-by="processing_date" default-sort-order="DESC">
+    <DisplayVersion versionName="listing">
       <DisplayFieldRef id="tracer"/>
       <DisplayFieldRef id="mode"/>
       <DisplayFieldRef id="suvr_global_cortex_over_ref"/>
@@ -27,19 +50,19 @@
     
     <DisplayVersion versionName="detailed">
       <!-- Input Parameters -->
-      <DisplayFieldRef id="dicom_dir" header="DICOM Directory"/>
-      <DisplayFieldRef id="pet_nifti" header="PET NIfTI"/>
-      <DisplayFieldRef id="template" header="Template"/>
-      <DisplayFieldRef id="target_mask" header="Target Mask"/>
-      <DisplayFieldRef id="ref_mask" header="Reference Mask"/>
+      <DisplayFieldRef id="dicom_dir"/>
+      <DisplayFieldRef id="pet_nifti"/>
+      <DisplayFieldRef id="template"/>
+      <DisplayFieldRef id="target_mask"/>
+      <DisplayFieldRef id="ref_mask"/>
       <DisplayFieldRef id="tracer"/>
       <DisplayFieldRef id="mode"/>
       <DisplayFieldRef id="reg_mode"/>
       
       <!-- Processing Results -->
-      <DisplayFieldRef id="converted_pet_nifti" header="Converted NIfTI"/>
-      <DisplayFieldRef id="registered_pet_nifti" header="Registered PET"/>
-      <DisplayFieldRef id="transform" header="Transform File"/>
+      <DisplayFieldRef id="converted_pet_nifti"/>
+      <DisplayFieldRef id="registered_pet_nifti"/>
+      <DisplayFieldRef id="transform"/>
       
       <!-- Quantitative Metrics -->
       <DisplayFieldRef id="target_mean"/>
@@ -49,16 +72,16 @@
       <DisplayFieldRef id="scaled_units"/>
       
       <!-- Output Files -->
-      <DisplayFieldRef id="qc_overlay_file" header="QC Overlay"/>
-      <DisplayFieldRef id="qc_pdf_file" header="QC PDF"/>
-      <DisplayFieldRef id="parametric_map_file" header="Parametric Map"/>
-      <DisplayFieldRef id="results_json" header="Results JSON"/>
-      <DisplayFieldRef id="results_csv" header="Results CSV"/>
+      <DisplayFieldRef id="qc_overlay_file"/>
+      <DisplayFieldRef id="qc_pdf_file"/>
+      <DisplayFieldRef id="parametric_map_file"/>
+      <DisplayFieldRef id="results_json"/>
+      <DisplayFieldRef id="results_csv"/>
       
       <!-- Metadata -->
       <DisplayFieldRef id="processing_status"/>
       <DisplayFieldRef id="processing_date"/>
-      <DisplayFieldRef id="container_version" header="Container Version"/>
+      <DisplayFieldRef id="container_version"/>
     </DisplayVersion>
   </ViewForm>
   

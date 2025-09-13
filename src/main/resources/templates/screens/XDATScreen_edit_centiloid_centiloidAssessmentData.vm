@@ -1,0 +1,281 @@
+##
+## XNAT Centiloid Assessment Data Edit Screen
+## Template for editing centiloid:centiloidAssessmentData
+##
+#set($page_title = "Edit Centiloid Assessment")
+#set($project = $om.getProject())
+
+<div class="centiloid-edit-form">
+    <h2>Edit Centiloid Assessment</h2>
+    
+    <form method="post" action="$link.setAction('ModifySubjectAssessorData')" name="form1" onsubmit="validateForm();">
+        <input type="hidden" name="project" value="$!project"/>
+        <input type="hidden" name="part_id" value="$om.getId()"/>
+        <input type="hidden" name="xsiType" value="centiloid:centiloidAssessmentData"/>
+        
+        <div class="form-section">
+            <h3>Assessment Information</h3>
+            <table class="xnat-form-table">
+                <tr>
+                    <td class="label">Assessment ID:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/id" value="$!om.getId()" readonly class="readonly"/></td>
+                </tr>
+                <tr>
+                    <td class="label">Label:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/label" value="$!om.getLabel()" size="30"/></td>
+                </tr>
+                <tr>
+                    <td class="label">Processing Date:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/processing_date" value="$!om.getProcessingDate()" size="20"/></td>
+                </tr>
+                <tr>
+                    <td class="label">Processing Status:</td>
+                    <td>
+                        <select name="centiloid:centiloidAssessmentData/processing_status">
+                            <option value="PROCESSING" #if($om.getProcessingStatus() == "PROCESSING")selected#end>Processing</option>
+                            <option value="COMPLETE" #if($om.getProcessingStatus() == "COMPLETE")selected#end>Complete</option>
+                            <option value="FAILED" #if($om.getProcessingStatus() == "FAILED")selected#end>Failed</option>
+                            <option value="QUEUED" #if($om.getProcessingStatus() == "QUEUED")selected#end>Queued</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-section">
+            <h3>Input Parameters</h3>
+            <table class="xnat-form-table">
+                <tr>
+                    <td class="label">Tracer:</td>
+                    <td>
+                        <select name="centiloid:centiloidAssessmentData/tracer">
+                            <option value="FBP" #if($om.getTracer() == "FBP")selected#end>Florbetapir (FBP)</option>
+                            <option value="PIB" #if($om.getTracer() == "PIB")selected#end>Pittsburgh Compound B (PIB)</option>
+                            <option value="FBB" #if($om.getTracer() == "FBB")selected#end>Florbetaben (FBB)</option>
+                            <option value="FMM" #if($om.getTracer() == "FMM")selected#end>Flutemetamol (FMM)</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">Analysis Mode:</td>
+                    <td>
+                        <select name="centiloid:centiloidAssessmentData/mode">
+                            <option value="amyloid" #if($om.getMode() == "amyloid")selected#end>Amyloid</option>
+                            <option value="tau" #if($om.getMode() == "tau")selected#end>Tau</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">Registration Mode:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/reg_mode" value="$!om.getRegMode()" size="20"/></td>
+                </tr>
+                <tr>
+                    <td class="label">Template:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/template" value="$!om.getTemplate()" size="40"/></td>
+                </tr>
+                <tr>
+                    <td class="label">Target Mask:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/target_mask" value="$!om.getTargetMask()" size="40"/></td>
+                </tr>
+                <tr>
+                    <td class="label">Reference Mask:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/ref_mask" value="$!om.getRefMask()" size="40"/></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-section">
+            <h3>Quantitative Results</h3>
+            <table class="xnat-form-table">
+                <tr>
+                    <td class="label">Target Region Mean:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/target_mean" value="$!om.getTargetMean()" size="15"/></td>
+                </tr>
+                <tr>
+                    <td class="label">Reference Region Mean:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/reference_mean" value="$!om.getReferenceMean()" size="15"/></td>
+                </tr>
+                <tr>
+                    <td class="label">Global Cortical SUVR:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/suvr_global_cortex_over_ref" value="$!om.getSuvrGlobalCortexOverRef()" size="15"/></td>
+                </tr>
+                <tr>
+                    <td class="label"><strong>Centiloid Value:</strong></td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/scaled_value" value="$!om.getScaledValue()" size="15" class="highlight-input"/></td>
+                </tr>
+                <tr>
+                    <td class="label">Scaled Units:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/scaled_units" value="$!om.getScaledUnits()" size="10"/></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-section">
+            <h3>Output Files</h3>
+            <table class="xnat-form-table">
+                <tr>
+                    <td class="label">QC Overlay File:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/qc_overlay_file" value="$!om.getQcOverlayFile()" size="50"/></td>
+                </tr>
+                <tr>
+                    <td class="label">QC PDF File:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/qc_pdf_file" value="$!om.getQcPdfFile()" size="50"/></td>
+                </tr>
+                <tr>
+                    <td class="label">Parametric Map File:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/parametric_map_file" value="$!om.getParametricMapFile()" size="50"/></td>
+                </tr>
+                <tr>
+                    <td class="label">Results JSON:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/results_json" value="$!om.getResultsJson()" size="50"/></td>
+                </tr>
+                <tr>
+                    <td class="label">Results CSV:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/results_csv" value="$!om.getResultsCsv()" size="50"/></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-section">
+            <h3>Processing Files</h3>
+            <table class="xnat-form-table">
+                <tr>
+                    <td class="label">Converted PET NIfTI:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/converted_pet_nifti" value="$!om.getConvertedPetNifti()" size="50"/></td>
+                </tr>
+                <tr>
+                    <td class="label">Registered PET NIfTI:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/registered_pet_nifti" value="$!om.getRegisteredPetNifti()" size="50"/></td>
+                </tr>
+                <tr>
+                    <td class="label">Transform File:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/transform" value="$!om.getTransform()" size="50"/></td>
+                </tr>
+                <tr>
+                    <td class="label">Container Version:</td>
+                    <td><input type="text" name="centiloid:centiloidAssessmentData/container_version" value="$!om.getContainerVersion()" size="20"/></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-actions">
+            <input type="submit" value="Save Changes" class="btn btn-primary"/>
+            <input type="button" value="Cancel" onclick="history.back();" class="btn btn-secondary"/>
+        </div>
+    </form>
+</div>
+
+<style>
+.centiloid-edit-form {
+    margin: 20px;
+    max-width: 800px;
+}
+
+.centiloid-edit-form h2 {
+    color: #333;
+    border-bottom: 2px solid #0066cc;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.centiloid-edit-form h3 {
+    color: #0066cc;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.form-section {
+    margin-bottom: 30px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #fafafa;
+}
+
+.xnat-form-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.xnat-form-table td {
+    padding: 8px;
+    vertical-align: middle;
+}
+
+.xnat-form-table td.label {
+    width: 200px;
+    font-weight: bold;
+    text-align: right;
+    padding-right: 15px;
+    color: #333;
+}
+
+.xnat-form-table input[type="text"],
+.xnat-form-table select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.xnat-form-table input.readonly {
+    background-color: #f0f0f0;
+    color: #666;
+}
+
+.xnat-form-table input.highlight-input {
+    background-color: #fff3cd;
+    border-color: #ffeaa7;
+    font-weight: bold;
+}
+
+.form-actions {
+    margin-top: 30px;
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+.btn {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary {
+    background-color: #0066cc;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0052a3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
+}
+</style>
+
+<script>
+function validateForm() {
+    // Basic validation - ensure required fields are filled
+    var label = document.forms["form1"]["centiloid:centiloidAssessmentData/label"].value;
+    if (label == "") {
+        alert("Assessment label must be filled out");
+        return false;
+    }
+    return true;
+}
+</script>
